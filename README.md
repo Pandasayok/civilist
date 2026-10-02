@@ -1,23 +1,39 @@
-# Перенос на GitHub
+# Civilist
 
-Это сохранённые исходники версии для Sites. Конфигурация самостоятельного запуска на Cloudflare Workers и D1 готовится следующим изменением.
+Учебное приложение по российскому праву: краткие уроки и ссылки на нормы, карточки с повторением, пять типов тестов, интерактивные дела с выбором позиции, судебная практика и конструктор документов по шаблонам.
 
-# Civilist 0.1
+Версия для самостоятельного размещения: **React + Vite**, **Cloudflare Worker API**, **D1 SQLite**. Начальные материалы находятся в `content/seed.json`, схема базы — в `db/schema.ts`, миграции — в `drizzle/`. Интерфейс рассчитан на компьютер и телефон.
 
-Personal Russian-law study app. The initial source of content is `content/seed.json`; data is seeded idempotently into D1 after schema migrations. Admin edits thereafter are authoritative and are never replaced by seed updates.
+## Запуск
 
-User identity comes from Sites dispatch and ChatGPT sign-in. Progress is keyed by the stable site-scoped user ID. The administrator is allowlisted server-side by `CIVILIST_ADMIN_EMAIL`. All writes validate identity, content, and supplied Origin. Event IDs make retried learning submissions idempotent. XP is calculated server-side and capped per material/day or first completion. Free-text answers are stored for self-assessment and excluded from automatic accuracy.
+Пошаговая инструкция: **[docs/DEPLOY.md](docs/DEPLOY.md)**. Для начала используем GitHub и Cloudflare Free с адресом `workers.dev`, без покупки домена и платного AI API.
 
-## Weekly practice preparation
+```bash
+npm ci
+npm run access:create -- --local
+npm run build
+npm run db:local
+npm run preview
+```
 
-This Site stays private. The draft-only `/api/editorial` service endpoint relies on that private platform boundary; disable `CIVILIST_PRIVATE_EDITORIAL_WRITER` before making the Site public. It never publishes material or modifies learner progress.
+Открой http://localhost:8787/login. Коды доступа находятся в локальном `.civilist-access-local.txt`, который исключён из Git. Для проверки типов: `npm run typecheck`.
 
-Each unattended run reopens the same Site with Sites `get_site`, checks owner role and private/custom owner-only access, and obtains its current service token in memory. It reads public primary sources on `vsrf.ru` and `pravo.gov.ru`. It reads existing material via `GET /api/editorial`, then sends `POST /api/editorial` with `{entries:[...]}` and `OAI-Sites-Authorization: Bearer <token>`. No token is stored in this repository or schedule instructions. Read back via the same GET to verify drafts; duplicate source URLs are skipped.
+Проверки: `npm test` проверяет авторизацию и сессии. После запуска локального Worker команда `npm run test:api` проверяет API с настоящей локальной D1; она изменяет только локальные тестовые данные.
 
-Each entry: `id`, `title`, `category` (`Обзоры`, `Пленумы`, `Дела`), `date` (`YYYY-MM-DD`, actual document date), `number`, `summary`, `decision`, `importance`, `norms`, `source` (`label`, `url`, `checkedAt`). Use canonical official document links. Read the full act before summarizing its legal conclusion; if inaccessible, omit the material. Keep distinctions between judgment, oral hearing, and press notice. If there is no relevant new material, report that rather than inventing a weekly item. The owner reviews and publishes drafts in the admin interface.
+## Доступ и данные
 
-Preparation is scheduled weekly in Europe/Moscow. The linked schedule contains this complete workflow and does not rely on local files. Manual admin entry remains available.
+Регистрация закрыта. Владелец создаёт отдельные длинные случайные коды администратора и ученика. Сервер хранит SHA-256-хеши этих кодов в секретах Cloudflare, подписывает семидневную сессию и использует HttpOnly/Secure/SameSite cookie. Роль проверяется сервером. Заголовки авторизации от прежней платформы Sites не принимаются.
 
-## Content boundary
+Прогресс привязан к стабильному идентификатору учётной записи и хранится в D1, поэтому один код на разных устройствах открывает один профиль. Изменение кода при сохранении `id` оставляет прогресс и отзывает прежние сессии. Обычные пароли вместо случайных кодов использовать нельзя: механизм рассчитан на секреты высокой энтропии.
 
-Starter lessons are concise summaries, not a complete law course. Judicial records distinguish summaries from indexes and hearing recordings. Hypothetical case outcomes are educational rather than predictions. Templates contain explicit placeholders, checks, and document-specific limits. Dates shown are source-review dates, not a guarantee that law remains unchanged.
+Начальный контент записывается идемпотентно; административные правки не заменяются повторной загрузкой seed. UUID учебного события защищает повторную отправку, XP рассчитывается на сервере. Свободные ответы сохраняются для самопроверки и не включаются в автоматическую точность.
+
+## Практика
+
+Администратор проверяет и публикует материалы вручную. `/api/editorial` принимает отдельный серверный bearer-токен или сессию администратора и создаёт только черновики. Ключ не встраивается в интерфейс и не хранится в GitHub. Автоматизацию прежнего Sites нужно отдельно переключить после запуска новой версии.
+
+## Границы первой версии
+
+Содержимое — начальная учебная база, не полный курс. Ссылки содержат дату проверки. Решения игровых дел являются учебными сценариями. Шаблоны содержат поля для заполнения, ограничения и проверки. Перед практическим использованием нормы и документы требуют проверки актуальности.
+
+История Git содержит исходную версию для Sites и следующий перенос на самостоятельный Worker. Старый опубликованный сайт не изменяется загрузкой кода в GitHub. Данные старой базы автоматически в новую D1 не копируются.

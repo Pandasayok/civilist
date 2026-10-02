@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2022",
     "lib": [
       "dom",
       "dom.iterable",
@@ -17,11 +17,6 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
       "@/*": [
         "./*"
@@ -30,18 +25,29 @@
     "types": [
       "node",
       "@cloudflare/workers-types"
-    ]
+    ],
+    "allowImportingTsExtensions": true
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "app/**/*.tsx",
+    "app/api/**/*.ts",
+    "src/**/*.tsx",
+    "worker/**/*.ts",
+    "lib/auth.ts",
+    "lib/civilist-db.ts",
+    "lib/civilist-types.ts",
+    "lib/content-validation.ts",
+    "lib/utils.ts",
+    "components/ui/**/*.tsx",
+    "hooks/**/*.ts",
+    "db/**/*.ts",
+    "vite.config.ts",
+    "drizzle.config.ts",
+    "cloudflare-env.d.ts",
+    "tests/**/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "examples"
+    "dist"
   ]
 }

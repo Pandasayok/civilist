@@ -1,10 +1,9 @@
-import {getChatGPTUser} from "@/app/chatgpt-auth";
-import {config,db,getContent} from "@/lib/civilist-db";
+import {getAuthUser} from "@/lib/auth";
+import {db,getContent} from "@/lib/civilist-db";
 import {validateContent} from "@/lib/content-validation";
 import {collection,Kind} from "@/lib/civilist-types";
 import {z} from "zod";
-export const dynamic="force-dynamic";
-async function isAdmin(){const u=await getChatGPTUser();return !!u&&!!config("CIVILIST_ADMIN_EMAIL")&&u.email.toLowerCase()===config("CIVILIST_ADMIN_EMAIL").toLowerCase();}
+async function isAdmin(){const u=await getAuthUser();return !!u?.isAdmin;}
 export async function GET(){if(!await isAdmin())return Response.json({error:"Этот раздел доступен администратору."},{status:403});try{return Response.json({content:await getContent(true)},{headers:{"Cache-Control":"no-store"}});}catch{return Response.json({error:"Не удалось загрузить библиотеку."},{status:503});}}
 export async function POST(request:Request){if(!await isAdmin())return Response.json({error:"Нет доступа к редактированию."},{status:403});if(request.headers.get("origin")&&request.headers.get("origin")!==new URL(request.url).origin)return Response.json({error:"Недопустимый запрос"},{status:403});try{const raw=await request.text();if(raw.length>300000)return Response.json({error:"Материал слишком большой."},{status:413});const a=z.object({kind:z.enum(["branch","lesson","card","question","case","practice","document"]),status:z.enum(["draft","published"]),body:z.unknown()}).parse(JSON.parse(raw));const body=validateContent(a.kind,a.body);const existing=await db().prepare("SELECT kind FROM content WHERE id = ?").bind(body.id).first<{kind:string}>();if(existing&&existing.kind!==a.kind)return Response.json({error:"Материал другого типа уже использует этот идентификатор."},{status:409});
   const bodyRefs=body as {branchId?:string;lessonId?:string};for(const [id,kind] of [[bodyRefs.branchId,"branch"],[bodyRefs.lessonId,"lesson"]]){if(!id)continue;const ref=await db().prepare("SELECT status FROM content WHERE id = ? AND kind = ?").bind(id,kind).first<{status:string}>();if(!ref||a.status==="published"&&ref.status!=="published")return Response.json({error:"Сначала опубликуй связанную отрасль и урок."},{status:400});}

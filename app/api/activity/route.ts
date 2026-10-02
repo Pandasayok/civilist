@@ -1,12 +1,11 @@
-import {getChatGPTUser} from "@/app/chatgpt-auth";
+import {getAuthUser} from "@/lib/auth";
 import {db,getItem,getState,moscowDay} from "@/lib/civilist-db";
 import {z} from "zod";
 import type {Question,CaseStudy,Card} from "@/lib/civilist-types";
-export const dynamic="force-dynamic";
 class BadAnswer extends Error {}
 const input=z.object({id:z.string().uuid(),kind:z.enum(["card","question","lesson","case"]),targetId:z.string().max(100),answer:z.unknown(),role:z.string().max(100).optional()});
 export async function POST(request:Request){
-  const user=await getChatGPTUser();if(!user)return Response.json({error:"Войди через ChatGPT, чтобы сохранить прогресс."},{status:401});
+  const user=await getAuthUser();if(!user)return Response.json({error:"Войди, чтобы сохранить прогресс."},{status:401});
   if(request.headers.get("origin")&&new URL(request.url).origin!==request.headers.get("origin"))return Response.json({error:"Недопустимый запрос"},{status:403});
   try{
     const a=input.parse(await request.json());const existing=await db().prepare("SELECT user_id,answer,correct,xp FROM events WHERE id = ?").bind(a.id).first<{user_id:string;answer:string;correct:number|null;xp:number}>();if(existing){if(existing.user_id!==user.userId)return Response.json({error:"Конфликт события"},{status:409});const saved=JSON.parse(existing.answer);return Response.json({state:await getState(user.userId),correct:existing.correct===null?null:!!existing.correct,xp:existing.xp,feedback:saved.feedback,score:saved.score,total:saved.total,replayed:true});}

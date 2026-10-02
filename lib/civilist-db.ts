@@ -14,8 +14,8 @@ export async function ensureSeed(){
 }
 export async function getContent(includeDrafts=false):Promise<Content>{await ensureSeed();const {results}=await db().prepare(includeDrafts?"SELECT kind,body,status FROM content WHERE status != 'archived' ORDER BY rowid":"SELECT kind,body,status FROM content WHERE status = 'published' ORDER BY rowid").all<{kind:Kind;body:string;status:string}>();const out:Content={branches:[],lessons:[],cards:[],questions:[],cases:[],practices:[],documents:[]};for(const r of results){(out[collection[r.kind]] as unknown[]).push({...JSON.parse(r.body),_status:r.status});}return out;}
 export async function getItem(id:string,kind:Kind){const row=await db().prepare("SELECT body FROM content WHERE id = ? AND kind = ? AND status = 'published'").bind(id,kind).first<{body:string}>();return row?JSON.parse(row.body):null;}
-export async function getState(userId:string):Promise<State>{
-  const database=db();await database.prepare("INSERT OR IGNORE INTO profiles (user_id,name,goal) VALUES (?,?,?)").bind(userId,"Софья",50).run();
+export async function getState(userId:string,defaultName="Софья"):Promise<State>{
+  const database=db();await database.prepare("INSERT OR IGNORE INTO profiles (user_id,name,goal) VALUES (?,?,?)").bind(userId,defaultName,50).run();
   const [profile,eventRows,reviewRows,bookmarkRows,totals,dayRows,completions,weakRows]=await Promise.all([
     database.prepare("SELECT name,goal FROM profiles WHERE user_id = ?").bind(userId).first<{name:string;goal:number}>(),
     database.prepare("SELECT id,kind,target_id,answer,correct,xp,day,created_at FROM events WHERE user_id = ? ORDER BY created_at DESC LIMIT 500").bind(userId).all<Event>(),
