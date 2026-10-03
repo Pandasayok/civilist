@@ -19,7 +19,7 @@
     {
       "binding": "DB",
       "database_name": "civilist-db",
-      "database_id": "00000000-0000-4000-8000-000000000000",
+      "database_id": "96ec156d-d73f-4982-83a9-949745d9c555",
       "migrations_dir": "drizzle"
     }
   ]
