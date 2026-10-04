@@ -10,6 +10,11 @@ def xp_label(page: Page):
     return page.get_by_text(re.compile(r"^\d+ XP$"))
 
 
+def api_status(page: Page, path: str):
+    # Browser fetch uses the same cookie rules and session as the application.
+    return page.evaluate("async (path) => (await fetch(path)).status", path)
+
+
 def test_wrong_code_keeps_the_app_closed(page: Page):
     page.goto("/")
     expect(page.get_by_role("heading", name="Продолжим учиться")).to_be_visible()
@@ -17,7 +22,7 @@ def test_wrong_code_keeps_the_app_closed(page: Page):
     page.get_by_role("button", name="Войти", exact=True).click()
     expect(page.get_by_role("alert")).to_contain_text("Код не найден")
     expect(page).to_have_url(re.compile(r"/login$"))
-    assert page.request.get("/api/bootstrap").status == 401
+    assert api_status(page, "/api/bootstrap") == 401
 
 
 def test_learner_cannot_open_administration(page: Page, login):
@@ -26,7 +31,7 @@ def test_learner_cannot_open_administration(page: Page, login):
     page.goto("/?view=admin")
     expect(page.get_by_role("heading", name="Доступ администратора")).to_be_visible()
     expect(page.get_by_role("button", name="Добавить", exact=True)).to_have_count(0)
-    assert page.request.get("/api/admin").status == 403
+    assert api_status(page, "/api/admin") == 403
 
 
 def choose_answer(page: Page, question):
@@ -100,7 +105,7 @@ def test_profile_settings_persist_and_logout_closes_access(page: Page, login):
     expect(dialog.get_by_label("Цель на день, XP", exact=True)).to_have_value("60")
     dialog.get_by_role("button", name="Выйти из аккаунта", exact=True).click()
     expect(page.get_by_role("heading", name="Продолжим учиться")).to_be_visible()
-    assert page.request.get("/api/bootstrap").status == 401
+    assert api_status(page, "/api/bootstrap") == 401
     page.goto("/?view=profile")
     expect(page.get_by_role("heading", name="Продолжим учиться")).to_be_visible()
 
