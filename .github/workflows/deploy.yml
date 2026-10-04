@@ -1,0 +1,95 @@
+name: Deploy Civilist
+run-name: Deploy ${{ inputs.environment }} from ${{ github.ref_name }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'qa: проверка ветки; production: выпуск проверенного master'
+        required: true
+        type: choice
+        default: qa
+        options:
+          - qa
+          - production
+
+permissions:
+  contents: read
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the selected branch and environment
+        env:
+          DEPLOY_TARGET: ${{ inputs.environment }}
+        run: |
+          case "$DEPLOY_TARGET" in
+            qa) ;;
+            production)
+              if [ "$GITHUB_REF" != "refs/heads/master" ]; then
+                echo 'Production can only be released from master.' >&2
+                exit 1
+              fi
+              ;;
+            *) echo 'Unknown deployment environment.' >&2; exit 1 ;;
+          esac
+
+  validate:
+    needs: select
+    uses: ./.github/workflows/check.yml
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      deployments: write
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.environment == 'qa' && 'https://civilist-qa.cybenkodmitrij92.workers.dev' || 'https://civilist.cybenkodmitrij92.workers.dev' }}
+    concurrency:
+      group: civilist-deploy-${{ inputs.environment }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Apply migrations and deploy the selected Worker
+        env:
+          DEPLOY_TARGET: ${{ inputs.environment }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo 'Add CLOUDFLARE_API_TOKEN (secret) and CLOUDFLARE_ACCOUNT_ID (variable) to this GitHub environment. See docs/CI_CD.md.' >&2
+            exit 1
+          fi
+          case "$DEPLOY_TARGET" in
+            qa) npm run deploy:qa ;;
+            production) npm run deploy ;;
+            *) exit 1 ;;
+          esac
+      - name: Check the live login page and closed API
+        env:
+          DEPLOY_TARGET: ${{ inputs.environment }}
+        run: node scripts/check-live.mjs "$DEPLOY_TARGET"
+      - name: Record the deployed commit
+        env:
+          DEPLOY_TARGET: ${{ inputs.environment }}
+          SITE_URL: ${{ inputs.environment == 'qa' && 'https://civilist-qa.cybenkodmitrij92.workers.dev' || 'https://civilist.cybenkodmitrij92.workers.dev' }}
+        run: |
+          {
+            printf '### Civilist: %s\n\n' "$DEPLOY_TARGET"
+            printf 'Commit: `%s`\n\n' "$GITHUB_SHA"
+            printf '[Открыть стенд](%s)\n\n' "$SITE_URL"
+            printf 'API-тесты выполнены на временной локальной D1. На живом сайте проверены страница входа и отказ API без сессии. Ручная проверка входа и обучения остаётся за тестировщиком.\n'
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -3,6 +3,7 @@ on:
   push:
     branches: [master]
   pull_request:
+  workflow_call:
 permissions:
   contents: read
 jobs:
@@ -11,6 +12,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -23,3 +27,5 @@ jobs:
       - run: node scripts/check-deploy.mjs --env qa
       - run: npx wrangler deploy --env="" --dry-run --outdir .worker-build
       - run: npx wrangler deploy --env qa --dry-run --outdir .worker-build/qa
+      - name: Check real API with a disposable local D1
+        run: npm run test:integration
