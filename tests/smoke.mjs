@@ -2,10 +2,16 @@
 import {readFile} from "node:fs/promises";
 import assert from "node:assert/strict";
 import {randomUUID} from "node:crypto";
-const base="http://localhost:8787";
-const codes=(await readFile(".civilist-access-local.txt","utf8")).trim().split("\n");
+import {resolve} from "node:path";
+const target=new URL(process.env.CIVILIST_TEST_BASE_URL||"http://localhost:8787");
+if(target.protocol!=="http:"||!["localhost","127.0.0.1"].includes(target.hostname)||target.username||target.password||target.pathname!=="/"||target.search||target.hash){
+  throw new Error("API tests may only use a local HTTP Worker. Never QA or production.");
+}
+const base=target.origin;
+const credentials=process.env.CIVILIST_TEST_CREDENTIALS_DIR||".";
+const codes=(await readFile(resolve(credentials,".civilist-access-local.txt"),"utf8")).trim().split("\n");
 const code=role=>codes.find(line=>line.includes(`(${role})`)).split(": ")[1];
-const secrets=Object.fromEntries((await readFile(".dev.vars","utf8")).trim().split("\n").map(line=>{const index=line.indexOf("=");return [line.slice(0,index),line.slice(index+1).replace(/^'|'$/g,'')];}));
+const secrets=Object.fromEntries((await readFile(resolve(credentials,".dev.vars"),"utf8")).trim().split("\n").map(line=>{const index=line.indexOf("=");return [line.slice(0,index),line.slice(index+1).replace(/^'|'$/g,'')];}));
 let checks=0;
 async function call(path,{method="GET",body,cookie,origin=base,token,status=200}={}){
   const headers={};if(body!==undefined)headers["Content-Type"]="application/json";
@@ -39,6 +45,8 @@ const first=(await call("/api/activity",{method:"POST",cookie:learner,body:event
 assert.equal(first.correct,true);checks++;
 const retry=(await call("/api/activity",{method:"POST",cookie:learner,body:event})).data;
 assert.equal(retry.replayed,true);assert.equal(retry.state.xp,first.state.xp);checks+=2;
+assert.equal((await call("/api/bootstrap",{cookie:sameAccount})).data.state.xp,first.state.xp);checks++;
+assert.equal((await call("/api/bootstrap",{cookie:owner})).data.state.xp,adminInitial.state.xp);checks++;
 await call("/api/activity",{method:"POST",cookie:owner,body:event,status:409});
 await call("/api/activity",{method:"POST",cookie:learner,body:{...event,id:randomUUID(),answer:[999]},status:400});
 const practice=initial.content.practices[0];

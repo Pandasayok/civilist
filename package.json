@@ -22,7 +22,8 @@
     "secrets:upload": "node scripts/check-deploy.mjs && wrangler secret bulk .civilist-secrets.json --env=\"\"",
     "secrets:upload:qa": "node scripts/check-deploy.mjs --env qa && wrangler secret bulk .civilist-secrets-qa.json --env qa",
     "test": "node --experimental-strip-types --test tests/auth.test.ts tests/deployment.test.mjs",
-    "test:api": "node tests/smoke.mjs"
+    "test:api": "node tests/smoke.mjs",
+    "test:integration": "node scripts/test-local-api.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
