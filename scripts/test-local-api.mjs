@@ -1,4 +1,4 @@
-// A real Worker + D1, with disposable storage and credentials. No cloud access.
+// API or browser tests against a real Worker + disposable local D1.
 import {spawn} from "node:child_process";
 import {access, mkdtemp, readFile, rm, writeFile} from "node:fs/promises";
 import {tmpdir} from "node:os";
@@ -7,10 +7,34 @@ import {fileURLToPath} from "node:url";
 import {setTimeout as delay} from "node:timers/promises";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const args = process.argv.slice(2);
+const ui = args[0] === "--ui";
+const pytestArgs = [];
+if (ui) args.shift();
+while (args.length) {
+  const arg = args.shift();
+  if (ui && arg === "--headed") pytestArgs.push(arg);
+  else if (ui && (arg === "-k" || arg === "--slowmo") && args[0] && !args[0].startsWith("--")) {
+    const value = args.shift();
+    if (arg === "--slowmo" && !/^\d{1,4}$/.test(value)) throw new Error("--slowmo: укажи число миллисекунд.");
+    pytestArgs.push(arg, value);
+  } else throw new Error("Разрешены только --ui, --headed, --slowmo <мс> и -k <имя теста>. Адрес выбирается локальным запуском.");
+}
+let python;
+if (ui) {
+  const venv = join(root, ".venv-ui", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
+  python = process.env.CIVILIST_TEST_PYTHON || await access(venv).then(() => venv, () => process.platform === "win32" ? "python" : "python3");
+  await new Promise((accept, reject) => {
+    const check = spawn(python, ["-c", "import pytest, pytest_playwright, playwright"], {cwd: root, stdio: "ignore"});
+    const missing = () => reject(new Error("Установи Python-зависимости по docs/UI_TESTS.md: python -m pip install -r requirements-ui.txt."));
+    check.once("error", missing);
+    check.once("close", code => code === 0 ? accept() : missing());
+  });
+}
 await access(join(root, "dist/index.html")).catch(() => {
   throw new Error("Сначала собери интерфейс: npm run build.");
 });
-const temporary = await mkdtemp(join(tmpdir(), "civilist-api-"));
+const temporary = await mkdtemp(join(tmpdir(), ui ? "civilist-ui-" : "civilist-api-"));
 const wrangler = join(root, "node_modules/wrangler/bin/wrangler.js");
 const configPath = join(temporary, "wrangler.json");
 const storage = join(temporary, "state");
@@ -23,8 +47,8 @@ let workerClosed;
 let output = "";
 let stopping = false;
 
-async function run(args, env = childEnv) {
-  const child = spawn(process.execPath, args, {cwd: temporary, env, stdio: ["ignore", "inherit", "inherit"], timeout: 120_000});
+async function run(args, env = childEnv, command = process.execPath, cwd = temporary) {
+  const child = spawn(command, args, {cwd, env, stdio: ["ignore", "inherit", "inherit"], timeout: ui ? 300_000 : 120_000});
   await new Promise((accept, reject) => {
     child.once("error", reject);
     child.once("close", (code, signal) => code === 0 ? accept() : reject(new Error(`Проверка остановлена: код ${code}, сигнал ${signal || "нет"}.`)));
@@ -94,7 +118,11 @@ try {
     if (!base) await delay(100);
   }
   if (!base) throw new Error("Worker не запустился за 60 секунд.");
-  await run([join(root, "tests/smoke.mjs")], {...childEnv, CIVILIST_TEST_BASE_URL: base, CIVILIST_TEST_CREDENTIALS_DIR: temporary});
+  const testEnv = {...childEnv, CIVILIST_TEST_BASE_URL: base, CIVILIST_TEST_CREDENTIALS_DIR: temporary};
+  if (ui) {
+    console.log("Playwright: временный локальный Worker и свежая D1. Chromium проверяет интерфейс.");
+    await run(["-m", "pytest", "tests/ui", "-v", "--browser", "chromium", "--tracing", "retain-on-failure", "--screenshot", "only-on-failure", "--output", "test-results/ui", "--junitxml", "test-results/ui-results.xml", ...pytestArgs], testEnv, python, root);
+  } else await run([join(root, "tests/smoke.mjs")], testEnv);
 } catch (error) {
   // Wrangler's normal logs redact secret values; credentials and storage are never artifacts.
   if (output) process.stderr.write(output);

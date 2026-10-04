@@ -1,0 +1,4 @@
+# Python packages for browser tests only. The website still runs on Node/Workers.
+playwright==1.63.0
+pytest==8.4.2
+pytest-playwright==0.7.2
