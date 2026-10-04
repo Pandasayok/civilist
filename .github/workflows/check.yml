@@ -9,13 +9,13 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: '24'
           cache: npm
@@ -29,3 +29,27 @@ jobs:
       - run: npx wrangler deploy --env qa --dry-run --outdir .worker-build/qa
       - name: Check real API with a disposable local D1
         run: npm run test:integration
+      - name: Set up Python for browser checks
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ui.txt
+      - name: Install browser test packages
+        run: python -m pip install -r requirements-ui.txt
+      - name: Install Chromium and its Linux dependencies
+        run: python -m playwright install --with-deps chromium
+      - name: Check browser flows with Python + Playwright
+        env:
+          CIVILIST_TEST_PYTHON: python
+        run: npm run test:ui
+      - name: Upload failed browser checks
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: civilist-ui-failure
+          path: |
+            test-results/ui/
+            test-results/ui-results.xml
+          if-no-files-found: ignore
+          retention-days: 3

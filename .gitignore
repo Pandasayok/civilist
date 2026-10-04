@@ -12,6 +12,11 @@
 
 # testing
 /coverage
+/.venv-ui/
+/.pytest_cache/
+__pycache__/
+*.pyc
+/test-results/
 
 # next.js
 /.next/
