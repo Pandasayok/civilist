@@ -22,5 +22,27 @@
       "database_id": "96ec156d-d73f-4982-83a9-949745d9c555",
       "migrations_dir": "drizzle"
     }
-  ]
+  ],
+  "env": {
+    "qa": {
+      "name": "civilist-qa",
+      "workers_dev": true,
+      "assets": {
+        "directory": "./dist",
+        "binding": "ASSETS",
+        "not_found_handling": "single-page-application",
+        "run_worker_first": [
+          "/api/*"
+        ]
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "civilist-db-qa",
+          "database_id": "47958c9b-9065-4a00-b609-05415877143f",
+          "migrations_dir": "drizzle"
+        }
+      ]
+    }
+  }
 }
