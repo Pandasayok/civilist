@@ -1,4 +1,5 @@
 import {authenticate,login,logout,runWithUser,type AuthConfig} from "../lib/auth";
+import * as assessment from "../app/api/assessment/route";
 import * as bootstrap from "../app/api/bootstrap/route";
 import * as activity from "../app/api/activity/route";
 import * as profile from "../app/api/profile/route";
@@ -8,7 +9,7 @@ import * as editorial from "../app/api/editorial/route";
 type Env=AuthConfig&{DB:D1Database;ASSETS:Fetcher;CIVILIST_EDITORIAL_TOKEN?:string};
 type Handler=(request:Request)=>Promise<Response>;
 const routes:Record<string,Partial<Record<string,Handler>>>={
-  "/api/bootstrap":bootstrap,"/api/activity":activity,"/api/profile":profile,
+  "/api/assessment":assessment,"/api/bootstrap":bootstrap,"/api/activity":activity,"/api/profile":profile,
   "/api/bookmark":bookmark,"/api/admin":admin,"/api/editorial":editorial,
 };
 function finish(response:Response){

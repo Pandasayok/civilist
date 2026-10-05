@@ -46,4 +46,4 @@ def test_curriculum_completion_survives_reload_without_extra_xp(page, login):
     expect(page.get_by_role("button", name="Урок пройден", exact=True)).to_be_disabled()
     expect(page.locator(".xp-stat")).to_have_text(xp)
     page.get_by_role("button", name="К оглавлению", exact=True).click()
-    expect(page.get_by_role("button", name=re.compile("^Договорное право"))).to_contain_text("1 из 1 тем пройдено")
+    expect(page.get_by_role("button", name=re.compile("^Договорное право"))).to_contain_text("1 из 6 тем пройдено")

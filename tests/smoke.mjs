@@ -29,7 +29,7 @@ await call("/api/auth/login",{method:"POST",body:{code:code("learner")},origin:"
 await call("/api/auth/login",{method:"POST",body:{code:"test-only-invalid-access-code"},status:401});
 const learner=await signIn("learner"),owner=await signIn("admin");
 const initial=(await call("/api/bootstrap",{cookie:learner})).data;
-assert.equal(initial.user.isAdmin,false);assert.equal(initial.content.lessons.length,12);checks+=2;
+assert.equal(initial.user.isAdmin,false);assert.equal(initial.content.lessons.length,17);checks+=2;
 const adminInitial=(await call("/api/bootstrap",{cookie:owner})).data;assert.equal(adminInitial.user.isAdmin,true);checks++;
 await call("/api/admin",{cookie:learner,status:403});
 await call("/api/editorial",{cookie:learner,status:403});
@@ -64,6 +64,48 @@ const editorial=(await call("/api/editorial",{token})).data.materials.find(item=
 assert.equal(editorial.status,"draft");checks++;
 assert.ok(!(await call("/api/bootstrap",{cookie:learner})).data.content.practices.some(item=>item.id===entry.id));checks++;
 const staticPage=await fetch(base+"/login");assert.equal(staticPage.status,200);assert.match(await staticPage.text(),/lang="ru"/);checks+=2;
+// Assessment lifecycle: real storage, server grading, ownership and concurrent finish.
+const contracts=initial.content.lessons.filter(l=>l.topic==="Договорное право");
+assert.equal(contracts.length,6);
+for(const l of contracts)assert.equal(initial.content.questions.filter(q=>q.lessonId===l.id).length,10);
+const lookup=new Map(initial.content.questions.map(q=>[q.id,q]));
+const startAttempt=(target,mode="topic",cookie=learner)=>call("/api/assessment",{method:"POST",cookie,body:{action:"start",mode,branchId:"civil",target}});
+const answersFor=a=>Object.fromEntries(a.questions.map(q=>{const full=lookup.get(q.id);return[q.id,full.type==="short"?"Мой развёрнутый ответ":full.answer];}));
+await call("/api/assessment",{method:"POST",cookie:learner,body:{action:"start",mode:"section",branchId:"civil",target:"Договорное право"},status:409});
+let completedAttempt;
+for(const lesson of contracts){
+ await call("/api/activity",{method:"POST",cookie:learner,body:{id:randomUUID(),kind:"lesson",targetId:lesson.id,answer:true}});
+ const attempt=(await startAttempt(lesson.id)).data;
+ assert.equal(attempt.questions.length,10);assert.ok(attempt.questions.every(q=>!('answer' in q)&&!('explanation' in q)&&!('model' in q)));
+ const resumed=(await startAttempt(lesson.id)).data;assert.equal(resumed.id,attempt.id);
+ await call("/api/assessment?id="+attempt.id,{cookie:owner,status:404});
+ await call("/api/assessment",{method:"POST",cookie:owner,body:{action:"finish",id:attempt.id,answers:{}},status:404});
+ await call("/api/assessment",{method:"POST",cookie:learner,body:{action:"finish",id:attempt.id,answers:{}},status:400});
+ const answers=answersFor(attempt);
+ await call("/api/assessment",{method:"POST",cookie:learner,body:{action:"save",id:attempt.id,answers}});
+ const stored=(await call("/api/assessment?id="+attempt.id,{cookie:sameAccount})).data;assert.deepEqual(stored.answers,answers);
+ const finished=(await call("/api/assessment",{method:"POST",cookie:learner,body:{action:"finish",id:attempt.id,answers}})).data;
+ assert.equal(finished.result.passed,true);assert.equal(finished.result.total,9);assert.equal(finished.result.written,1);
+ const retried=(await call("/api/assessment",{method:"POST",cookie:learner,body:{action:"finish",id:attempt.id,answers:{}}})).data;
+ assert.equal(retried.state.xp,finished.state.xp);assert.deepEqual(retried.result,finished.result);completedAttempt=finished;
+}
+const exam=(await startAttempt("Договорное право","section")).data;
+assert.equal(exam.questions.length,20);assert.equal(new Set(exam.questions.map(q=>q.lessonId)).size,6);assert.ok(exam.questions.every(q=>q.type!=="short"));
+const request={method:"POST",cookie:learner,body:{action:"finish",id:exam.id,answers:answersFor(exam)}};
+const [finishA,finishB]=await Promise.all([call("/api/assessment",request),call("/api/assessment",request)]);
+assert.deepEqual(finishA.data.result,finishB.data.result);assert.equal(finishA.data.state.xp,completedAttempt.state.xp+30);assert.equal(finishB.data.state.xp,finishA.data.state.xp);
+const repeat=(await startAttempt("Договорное право","section")).data;
+assert.notEqual(repeat.id,exam.id);
+const second=(await call("/api/assessment",{method:"POST",cookie:learner,body:{action:"finish",id:repeat.id,answers:answersFor(repeat)}})).data;
+assert.equal(second.state.xp,finishA.data.state.xp);assert.ok(second.state.assessments.some(a=>a.mode==="section"&&a.target==="Договорное право"&&a.passed&&a.attempts===2));
+// Failed retake keeps the historical pass and does not earn XP.
+const failed=(await startAttempt("contract-basics")).data;
+const incorrect=Object.fromEntries(failed.questions.map(q=>{const full=lookup.get(q.id);return[q.id,q.type==="short"?"Ответ":[(full.answer[0]+1)%q.options.length]];}));
+for(const q of failed.questions){if(q.type==="matching"||q.type==="sequence"){const full=lookup.get(q.id);incorrect[q.id]=[...full.answer].reverse();}}
+const failedResult=(await call("/api/assessment",{method:"POST",cookie:learner,body:{action:"finish",id:failed.id,answers:incorrect}})).data;
+assert.equal(failedResult.result.passed,false);assert.equal(failedResult.state.xp,second.state.xp);
+assert.ok(failedResult.state.assessments.find(a=>a.target==="contract-basics").passed);
+checks+=31;
 await call("/api/auth/logout",{method:"POST",cookie:learner,body:{}});
 await call("/api/bootstrap",{status:401});
 console.log(`Local Worker + D1: ${checks} checks passed.`);
