@@ -21,6 +21,7 @@ def test_wrong_code_keeps_the_app_closed(page: Page):
     page.get_by_label("Код доступа").fill("ui-test-invalid-access-code")
     page.get_by_role("button", name="Войти", exact=True).click()
     expect(page.get_by_role("alert")).to_contain_text("Код не найден")
+    expect(page.get_by_role("button", name="Войти", exact=True)).to_be_enabled()
     expect(page).to_have_url(re.compile(r"/login$"))
     assert api_status(page, "/api/bootstrap") == 401
 
