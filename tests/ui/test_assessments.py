@@ -7,10 +7,22 @@ from playwright.sync_api import expect
 from test_study import choose_answer
 
 
+def api(page, path, body=None):
+    # Chromium treats loopback as trustworthy and sends the Secure session cookie.
+    # APIRequestContext follows different HTTP cookie rules; exercise the browser session.
+    result = page.evaluate("""async ({path, body}) => {
+        const response = await fetch(path, body === null ? {} : {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        });
+        return {status: response.status, data: await response.json()};
+    }""", {"path": path, "body": body})
+    assert result["status"] == 200, result
+    return result["data"]
+
+
 def post(page, path, body):
-    response = page.request.post(path, data=body, headers={"Origin": f"{urlsplit(page.url).scheme}://{urlsplit(page.url).netloc}"})
-    assert response.ok, response.text()
-    return response.json()
+    return api(page, path, body)
 
 
 def test_topic_assessment_resume_and_result(page, login, seed_questions):
@@ -50,7 +62,7 @@ def test_section_final_is_locked_then_covers_all_topics_on_mobile(page, login):
     page.goto("/?view=learn&scope=civil&item=" + quote("Договорное право"))
     exam = page.locator(".study-section-exam").filter(has=page.get_by_role("heading", name="Итоговый тест: Договорное право", exact=True))
     expect(exam.get_by_role("button", name="Пройти итоговый тест", exact=True)).to_be_disabled()
-    content = page.request.get("/api/bootstrap").json()["content"]
+    content = api(page, "/api/bootstrap")["content"]
     questions = {q["id"]: q for q in content["questions"]}
     for lesson in [l for l in content["lessons"] if l["topic"] == "Договорное право"]:
         post(page, "/api/activity", {"id": str(uuid4()), "kind": "lesson", "targetId": lesson["id"], "answer": True})
@@ -65,7 +77,7 @@ def test_section_final_is_locked_then_covers_all_topics_on_mobile(page, login):
     # Final completion is checked through UI, with input prepared by the same test data.
     from urllib.parse import urlsplit, parse_qs
     attempt_id = parse_qs(urlsplit(page.url).query)["attempt"][0]
-    attempt = page.request.get("/api/assessment?id=" + attempt_id).json()
+    attempt = api(page, "/api/assessment?id=" + attempt_id)
     assert len({q["lessonId"] for q in attempt["questions"]}) == 6
     answers = {q["id"]: questions[q["id"]]["answer"] for q in attempt["questions"]}
     post(page, "/api/assessment", {"action": "save", "id": attempt_id, "answers": answers})
