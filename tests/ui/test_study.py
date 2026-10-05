@@ -152,3 +152,17 @@ def test_mobile_navigation_opens_documents(page: Page, login):
     navigation.get_by_role("button", name="Документы", exact=True).click()
     expect(page.get_by_role("heading", name="Библиотека документов")).to_be_visible()
     expect(navigation.get_by_role("button", name="Документы", exact=True)).to_have_attribute("aria-current", "page")
+
+def test_empty_code_keeps_the_app_closed(page: Page):
+    page.goto("/")
+
+    code_input = page.get_by_label("Код доступа")
+    expect(code_input).to_be_empty()
+
+    page.get_by_role("button", name="Войти", exact=True).click()
+
+    expect(code_input).to_be_focused()
+    assert code_input.evaluate("element => element.validity.valueMissing")
+
+    expect(page).to_have_url(re.compile(r"/login$"))
+    assert api_status(page, "/api/bootstrap") == 401
