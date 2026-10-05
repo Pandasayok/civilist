@@ -51,7 +51,8 @@ def account_codes():
 @pytest.fixture(scope="session")
 def seed_questions():
     root = Path(__file__).resolve().parents[2]
-    return {q["title"]: q for q in json.loads((root / "content/seed.json").read_text())["questions"]}
+    bank = json.loads((root / "content/seed.json").read_text())["questions"] + json.loads((root / "content/course-contracts.json").read_text())["questions"]
+    return {q["title"]: q for q in bank}
 
 
 @pytest.fixture(scope="session")

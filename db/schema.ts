@@ -1,4 +1,5 @@
-import { sqliteTable, text, integer, primaryKey, index } from "drizzle-orm/sqlite-core";
+import {sql} from "drizzle-orm";
+import { sqliteTable, text, integer, primaryKey, index, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const content = sqliteTable("content", {
   id: text("id").primaryKey(), kind: text("kind").notNull(), body: text("body").notNull(),
@@ -21,3 +22,10 @@ export const reviews = sqliteTable("reviews", {
 export const bookmarks = sqliteTable("bookmarks", {
   userId:text("user_id").notNull(),itemId:text("item_id").notNull(),
 },t=>[primaryKey({columns:[t.userId,t.itemId]})]);
+
+export const assessmentAttempts = sqliteTable("assessment_attempts", {
+ id:text("id").primaryKey(),userId:text("user_id").notNull(),targetKey:text("target_key").notNull(),
+ mode:text("mode").notNull(),branchId:text("branch_id").notNull(),target:text("target").notNull(),title:text("title").notNull(),
+ questions:text("questions").notNull(),answers:text("answers").notNull().default("{}"),result:text("result"),status:text("status").notNull().default("active"),
+ createdAt:text("created_at").notNull(),updatedAt:text("updated_at").notNull(),
+},t=>[uniqueIndex("assessment_one_active").on(t.userId,t.targetKey).where(sql`${t.status}='active'`),index("assessment_history").on(t.userId,t.targetKey,t.status)]);

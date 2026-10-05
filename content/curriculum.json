@@ -1,0 +1,713 @@
+{
+  "version": 1,
+  "sections": [
+    {
+      "branchId": "civil",
+      "title": "Основы гражданского права",
+      "topics": [
+        {
+          "id": "civil-ch-1",
+          "title": "Гражданское право как отрасль права",
+          "volume": 1,
+          "chapter": 1
+        },
+        {
+          "id": "civil-ch-2",
+          "title": "Источники гражданского права",
+          "volume": 1,
+          "chapter": 2
+        },
+        {
+          "id": "civil-ch-3",
+          "title": "Гражданское право как наука и учебная дисциплина",
+          "volume": 1,
+          "chapter": 3
+        },
+        {
+          "id": "civil-ch-4",
+          "title": "Общая характеристика гражданского права зарубежных государств",
+          "volume": 1,
+          "chapter": 4
+        },
+        {
+          "id": "civil-ch-5",
+          "title": "Понятие, элементы и виды гражданских правоотношений",
+          "volume": 1,
+          "chapter": 5
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Участники гражданских отношений",
+      "topics": [
+        {
+          "id": "civil-ch-6",
+          "title": "Граждане как субъекты гражданских правоотношений",
+          "volume": 1,
+          "chapter": 6
+        },
+        {
+          "id": "civil-ch-7",
+          "title": "Юридические лица как субъекты гражданских правоотношений. общие положения",
+          "volume": 1,
+          "chapter": 7
+        },
+        {
+          "id": "civil-ch-8",
+          "title": "Коммерческие организации как субъекты гражданских правоотношений",
+          "volume": 1,
+          "chapter": 8
+        },
+        {
+          "id": "civil-ch-9",
+          "title": "Некоммерческие организации как субъекты гражданских правоотношений",
+          "volume": 1,
+          "chapter": 9
+        },
+        {
+          "id": "civil-ch-10",
+          "title": "Публичные образования как субъекты гражданских правоотношений",
+          "volume": 1,
+          "chapter": 10
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Объекты гражданских прав",
+      "topics": [
+        {
+          "id": "civil-ch-11",
+          "title": "Объекты гражданских прав",
+          "volume": 1,
+          "chapter": 11
+        },
+        {
+          "id": "civil-ch-12",
+          "title": "Ценные бумаги",
+          "volume": 1,
+          "chapter": 12
+        },
+        {
+          "id": "civil-ch-13",
+          "title": "Нематериальные блага",
+          "volume": 1,
+          "chapter": 13
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Сделки и представительство",
+      "topics": [
+        {
+          "id": "transactions",
+          "title": "Сделки: виды и условия действительности",
+          "volume": 1,
+          "chapter": 14
+        },
+        {
+          "id": "invalid-transactions",
+          "title": "Недействительность сделок",
+          "volume": 1,
+          "chapter": 14
+        },
+        {
+          "id": "meeting-decisions",
+          "title": "Решения собраний",
+          "volume": 1,
+          "chapter": 14
+        },
+        {
+          "id": "civil-ch-16",
+          "title": "Представительство",
+          "volume": 1,
+          "chapter": 16
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Защита права",
+      "topics": [
+        {
+          "id": "civil-ch-15",
+          "title": "Осуществление гражданских прав и исполнение обязанностей",
+          "volume": 1,
+          "chapter": 15
+        },
+        {
+          "id": "civil-ch-17",
+          "title": "Защита гражданских прав",
+          "volume": 1,
+          "chapter": 17
+        },
+        {
+          "id": "civil-time",
+          "title": "Сроки в гражданском праве",
+          "volume": 1,
+          "chapter": 18
+        },
+        {
+          "id": "limitation",
+          "title": "Исковая давность",
+          "volume": 1,
+          "chapter": 18
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Вещное право",
+      "topics": [
+        {
+          "id": "civil-ch-19",
+          "title": "Общие положения о вещном праве",
+          "volume": 1,
+          "chapter": 19
+        },
+        {
+          "id": "civil-ch-20",
+          "title": "Право собственности. общие положения",
+          "volume": 1,
+          "chapter": 20
+        },
+        {
+          "id": "civil-ch-21",
+          "title": "Право частной собственности",
+          "volume": 1,
+          "chapter": 21
+        },
+        {
+          "id": "civil-ch-22",
+          "title": "Право публичной собственности",
+          "volume": 1,
+          "chapter": 22
+        },
+        {
+          "id": "civil-ch-23",
+          "title": "Право общей собственности",
+          "volume": 1,
+          "chapter": 23
+        },
+        {
+          "id": "civil-ch-24",
+          "title": "Ограниченные вещные права",
+          "volume": 1,
+          "chapter": 24
+        },
+        {
+          "id": "civil-ch-25",
+          "title": "Защита права собственности и иных вещных прав",
+          "volume": 1,
+          "chapter": 25
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Обязательства",
+      "topics": [
+        {
+          "id": "civil-ch-26",
+          "title": "Понятие, виды и основания возникновения обязательств",
+          "volume": 1,
+          "chapter": 26
+        },
+        {
+          "id": "civil-ch-28",
+          "title": "Исполнение обязательств",
+          "volume": 1,
+          "chapter": 28
+        },
+        {
+          "id": "liability",
+          "title": "Неустойка и убытки",
+          "volume": 1,
+          "chapter": 29
+        },
+        {
+          "id": "pledge",
+          "title": "Залог",
+          "volume": 1,
+          "chapter": 29
+        },
+        {
+          "id": "retention",
+          "title": "Удержание вещи",
+          "volume": 1,
+          "chapter": 29
+        },
+        {
+          "id": "surety",
+          "title": "Поручительство",
+          "volume": 1,
+          "chapter": 29
+        },
+        {
+          "id": "guarantee",
+          "title": "Независимая гарантия",
+          "volume": 1,
+          "chapter": 29
+        },
+        {
+          "id": "deposit",
+          "title": "Задаток и обеспечительный платёж",
+          "volume": 1,
+          "chapter": 29
+        },
+        {
+          "id": "civil-ch-30",
+          "title": "Ответственность за нарушение обязательств",
+          "volume": 1,
+          "chapter": 30
+        },
+        {
+          "id": "civil-ch-31",
+          "title": "Изменение и прекращение обязательств",
+          "volume": 1,
+          "chapter": 31
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Договорное право",
+      "topics": [
+        {
+          "id": "contract-basics",
+          "title": "Понятие и свобода договора",
+          "volume": 1,
+          "chapter": 27
+        },
+        {
+          "id": "contract-types",
+          "title": "Виды договоров",
+          "volume": 1,
+          "chapter": 27
+        },
+        {
+          "id": "contract-terms",
+          "title": "Условия и форма договора",
+          "volume": 1,
+          "chapter": 27
+        },
+        {
+          "id": "offer",
+          "title": "Оферта и акцепт",
+          "volume": 1,
+          "chapter": 27
+        },
+        {
+          "id": "contract-negotiations",
+          "title": "Переговоры и специальные способы заключения",
+          "volume": 1,
+          "chapter": 27
+        },
+        {
+          "id": "contract-ending",
+          "title": "Изменение и расторжение договора",
+          "volume": 1,
+          "chapter": 27
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Отдельные виды договоров",
+      "topics": [
+        {
+          "id": "sale",
+          "title": "Купля-продажа: общие положения",
+          "volume": 2,
+          "chapter": 32
+        },
+        {
+          "id": "retail",
+          "title": "Розничная купля-продажа",
+          "volume": 2,
+          "chapter": 32
+        },
+        {
+          "id": "supply",
+          "title": "Поставка и контрактация",
+          "volume": 2,
+          "chapter": 32
+        },
+        {
+          "id": "energy",
+          "title": "Энергоснабжение",
+          "volume": 2,
+          "chapter": 32
+        },
+        {
+          "id": "real-estate-sale",
+          "title": "Продажа недвижимости",
+          "volume": 2,
+          "chapter": 32
+        },
+        {
+          "id": "barter",
+          "title": "Мена",
+          "volume": 2,
+          "chapter": 32
+        },
+        {
+          "id": "civil-ch-33",
+          "title": "Дарение",
+          "volume": 2,
+          "chapter": 33
+        },
+        {
+          "id": "civil-ch-34",
+          "title": "Рента и пожизненное содержание с иждивением",
+          "volume": 2,
+          "chapter": 34
+        },
+        {
+          "id": "lease",
+          "title": "Аренда: заключение, исполнение и прекращение",
+          "volume": 2,
+          "chapter": 35
+        },
+        {
+          "id": "rental",
+          "title": "Прокат",
+          "volume": 2,
+          "chapter": 35
+        },
+        {
+          "id": "vehicle-lease",
+          "title": "Аренда транспортных средств",
+          "volume": 2,
+          "chapter": 35
+        },
+        {
+          "id": "building-lease",
+          "title": "Аренда зданий и предприятий",
+          "volume": 2,
+          "chapter": 35
+        },
+        {
+          "id": "leasing",
+          "title": "Лизинг",
+          "volume": 2,
+          "chapter": 35
+        },
+        {
+          "id": "civil-ch-36",
+          "title": "Безвозмездное пользование имуществом (ссуда)",
+          "volume": 2,
+          "chapter": 36
+        },
+        {
+          "id": "civil-ch-38",
+          "title": "Подряд",
+          "volume": 2,
+          "chapter": 38
+        },
+        {
+          "id": "civil-ch-39",
+          "title": "Выполнение научно-исследовательских, опытно-конструкторских и технологических работ",
+          "volume": 2,
+          "chapter": 39
+        },
+        {
+          "id": "civil-ch-40",
+          "title": "Возмездное оказание услуг",
+          "volume": 2,
+          "chapter": 40
+        },
+        {
+          "id": "civil-ch-41",
+          "title": "Перевозка и иные транспортные обязательства",
+          "volume": 2,
+          "chapter": 41
+        },
+        {
+          "id": "loan-credit",
+          "title": "Заём и кредит",
+          "volume": 2,
+          "chapter": 42
+        },
+        {
+          "id": "factoring",
+          "title": "Факторинг",
+          "volume": 2,
+          "chapter": 42
+        },
+        {
+          "id": "bank-deposit",
+          "title": "Банковский вклад",
+          "volume": 2,
+          "chapter": 42
+        },
+        {
+          "id": "bank-account",
+          "title": "Банковский счёт",
+          "volume": 2,
+          "chapter": 42
+        },
+        {
+          "id": "payments",
+          "title": "Расчётные обязательства",
+          "volume": 2,
+          "chapter": 42
+        },
+        {
+          "id": "civil-ch-43",
+          "title": "Страхование",
+          "volume": 2,
+          "chapter": 43
+        },
+        {
+          "id": "civil-ch-44",
+          "title": "Поручение",
+          "volume": 2,
+          "chapter": 44
+        },
+        {
+          "id": "civil-ch-45",
+          "title": "Комиссия",
+          "volume": 2,
+          "chapter": 45
+        },
+        {
+          "id": "civil-ch-46",
+          "title": "Агентирование",
+          "volume": 2,
+          "chapter": 46
+        },
+        {
+          "id": "civil-ch-47",
+          "title": "Доверительное управление имуществом",
+          "volume": 2,
+          "chapter": 47
+        },
+        {
+          "id": "civil-ch-48",
+          "title": "Хранение",
+          "volume": 2,
+          "chapter": 48
+        },
+        {
+          "id": "civil-ch-49",
+          "title": "Коммерческая концессия",
+          "volume": 2,
+          "chapter": 49
+        },
+        {
+          "id": "civil-ch-50",
+          "title": "Договор простого товарищества",
+          "volume": 2,
+          "chapter": 50
+        },
+        {
+          "id": "civil-ch-51",
+          "title": "Обязательства из односторонних действий",
+          "volume": 2,
+          "chapter": 51
+        },
+        {
+          "id": "civil-ch-52",
+          "title": "Проведение игр и пари",
+          "volume": 2,
+          "chapter": 52
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Внедоговорные обязательства",
+      "topics": [
+        {
+          "id": "tort",
+          "title": "Возмещение вреда: общие условия",
+          "volume": 3,
+          "chapter": 53
+        },
+        {
+          "id": "state-tort",
+          "title": "Вред, причинённый публичной властью",
+          "volume": 3,
+          "chapter": 53
+        },
+        {
+          "id": "minor-tort",
+          "title": "Ответственность за несовершеннолетних и недееспособных",
+          "volume": 3,
+          "chapter": 53
+        },
+        {
+          "id": "danger-tort",
+          "title": "Источники повышенной опасности",
+          "volume": 3,
+          "chapter": 53
+        },
+        {
+          "id": "health-tort",
+          "title": "Вред жизни и здоровью",
+          "volume": 3,
+          "chapter": 53
+        },
+        {
+          "id": "product-tort",
+          "title": "Вред от недостатков товаров, работ и услуг",
+          "volume": 3,
+          "chapter": 53
+        },
+        {
+          "id": "civil-ch-54",
+          "title": "Обязательства из неосновательного обогащения",
+          "volume": 3,
+          "chapter": 54
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Интеллектуальные права",
+      "topics": [
+        {
+          "id": "civil-ch-55",
+          "title": "Понятие интеллектуальной собственности и система ее правовой охраны",
+          "volume": 3,
+          "chapter": 55
+        },
+        {
+          "id": "copyright",
+          "title": "Авторское право",
+          "volume": 3,
+          "chapter": 56
+        },
+        {
+          "id": "related-rights",
+          "title": "Смежные права",
+          "volume": 3,
+          "chapter": 56
+        },
+        {
+          "id": "civil-ch-57",
+          "title": "Патентное право",
+          "volume": 3,
+          "chapter": 57
+        },
+        {
+          "id": "trade-name",
+          "title": "Фирменное наименование",
+          "volume": 3,
+          "chapter": 58
+        },
+        {
+          "id": "trademarks",
+          "title": "Товарные знаки",
+          "volume": 3,
+          "chapter": 58
+        },
+        {
+          "id": "geographic-designations",
+          "title": "Географические обозначения",
+          "volume": 3,
+          "chapter": 58
+        },
+        {
+          "id": "commercial-designation",
+          "title": "Коммерческое обозначение",
+          "volume": 3,
+          "chapter": 58
+        },
+        {
+          "id": "civil-ch-59",
+          "title": "Правовая охрана нетрадиционных объектов интеллектуальной собственности",
+          "volume": 3,
+          "chapter": 59
+        }
+      ]
+    },
+    {
+      "branchId": "civil",
+      "title": "Наследственное право",
+      "topics": [
+        {
+          "id": "civil-ch-66",
+          "title": "Общие положения о наследственном праве",
+          "volume": 3,
+          "chapter": 66
+        },
+        {
+          "id": "civil-ch-67",
+          "title": "Наследование по завещанию",
+          "volume": 3,
+          "chapter": 67
+        },
+        {
+          "id": "civil-ch-68",
+          "title": "Наследование по закону",
+          "volume": 3,
+          "chapter": 68
+        },
+        {
+          "id": "civil-ch-69",
+          "title": "Осуществление и охрана наследственных прав",
+          "volume": 3,
+          "chapter": 69
+        }
+      ]
+    },
+    {
+      "branchId": "family",
+      "title": "Семейное право",
+      "topics": [
+        {
+          "id": "civil-ch-60",
+          "title": "Общие положения о семейном праве",
+          "volume": 3,
+          "chapter": 60
+        },
+        {
+          "id": "civil-ch-61",
+          "title": "Семейные правоотношения",
+          "volume": 3,
+          "chapter": 61
+        },
+        {
+          "id": "civil-ch-62",
+          "title": "Личные и имущественные правоотношения между супругами",
+          "volume": 3,
+          "chapter": 62
+        },
+        {
+          "id": "civil-ch-63",
+          "title": "Личные и имущественные правоотношения между родителями и детьми",
+          "volume": 3,
+          "chapter": 63
+        },
+        {
+          "id": "civil-ch-64",
+          "title": "Личные и имущественные правоотношения, связанные с воспитанием детей, оставшихся без попечения родителей",
+          "volume": 3,
+          "chapter": 64
+        },
+        {
+          "id": "civil-ch-65",
+          "title": "Алиментные обязательства",
+          "volume": 3,
+          "chapter": 65
+        }
+      ]
+    },
+    {
+      "branchId": "housing",
+      "title": "Жилищное право",
+      "topics": [
+        {
+          "id": "civil-ch-37",
+          "title": "Жилищное право",
+          "volume": 2,
+          "chapter": 37
+        }
+      ]
+    }
+  ]
+}
