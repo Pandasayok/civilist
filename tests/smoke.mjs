@@ -77,6 +77,9 @@ for(const lesson of contracts){
  await call("/api/activity",{method:"POST",cookie:learner,body:{id:randomUUID(),kind:"lesson",targetId:lesson.id,answer:true}});
  const attempt=(await startAttempt(lesson.id)).data;
  assert.equal(attempt.questions.length,10);assert.ok(attempt.questions.every(q=>!('answer' in q)&&!('explanation' in q)&&!('model' in q)));
+ const lookup="/api/assessment?"+new URLSearchParams({mode:"topic",branchId:"civil",target:lesson.id});
+ const active=(await call(lookup,{cookie:learner})).data;assert.equal(active.id,attempt.id);
+ assert.equal((await call(lookup,{cookie:owner})).data,null);
  const resumed=(await startAttempt(lesson.id)).data;assert.equal(resumed.id,attempt.id);
  await call("/api/assessment?id="+attempt.id,{cookie:owner,status:404});
  await call("/api/assessment",{method:"POST",cookie:owner,body:{action:"finish",id:attempt.id,answers:{}},status:404});
@@ -86,6 +89,8 @@ for(const lesson of contracts){
  const stored=(await call("/api/assessment?id="+attempt.id,{cookie:sameAccount})).data;assert.deepEqual(stored.answers,answers);
  const finished=(await call("/api/assessment",{method:"POST",cookie:learner,body:{action:"finish",id:attempt.id,answers}})).data;
  assert.equal(finished.result.passed,true);assert.equal(finished.result.total,9);assert.equal(finished.result.written,1);
+ const reopened=(await call(lookup,{cookie:sameAccount})).data;
+ assert.equal(reopened.id,attempt.id);assert.equal(reopened.status,"finished");assert.deepEqual(reopened.result,finished.result);
  const retried=(await call("/api/assessment",{method:"POST",cookie:learner,body:{action:"finish",id:attempt.id,answers:{}}})).data;
  assert.equal(retried.state.xp,finished.state.xp);assert.deepEqual(retried.result,finished.result);completedAttempt=finished;
 }

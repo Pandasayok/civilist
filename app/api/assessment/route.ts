@@ -10,7 +10,14 @@ const save=z.object({action:z.enum(['save','finish']),id:z.string().uuid(),answe
 function present(row:Row){return{id:row.id,mode:row.mode,branchId:row.branch_id,target:row.target,title:row.title,status:row.status,questions:JSON.parse(row.questions).map(publicQuestion),answers:JSON.parse(row.answers),result:row.result?JSON.parse(row.result):null,passPercent:PASS_PERCENT};}
 export async function GET(request:Request){
  const user=await getAuthUser();if(!user)return Response.json({error:'Войди в приложение.'},{status:401});
- const id=new URL(request.url).searchParams.get('id');
+ const params=new URL(request.url).searchParams;
+ const id=params.get('id');
+ if(!id){
+  const mode=params.get('mode'),branchId=params.get('branchId'),target=params.get('target');
+  if((mode!=='topic'&&mode!=='section')||!branchId||!target)return Response.json({error:'Укажи тему теста.'},{status:400});
+  const row=await db().prepare("SELECT * FROM assessment_attempts WHERE user_id=? AND target_key=? ORDER BY CASE WHEN status='active' THEN 0 ELSE 1 END,updated_at DESC,id DESC LIMIT 1").bind(user.userId,targetKey(mode,branchId,target)).first<Row>();
+  return Response.json(row?present(row):null);
+ }
  const row=await db().prepare('SELECT * FROM assessment_attempts WHERE id=? AND user_id=?').bind(id,user.userId).first<Row>();
  return row?Response.json(present(row)):Response.json({error:'Попытка не найдена.'},{status:404});
 }
