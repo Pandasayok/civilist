@@ -1,0 +1,661 @@
+{
+  "description": "Карта охвата учебников. mapped означает только сопоставление оглавления, не полный анализ и не готовый конспект.",
+  "chapters": [
+    {
+      "volume": 1,
+      "chapter": 1,
+      "title": "Гражданское право как отрасль права",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-1"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 2,
+      "title": "Источники гражданского права",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-2"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 3,
+      "title": "Гражданское право как наука и учебная дисциплина",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-3"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 4,
+      "title": "Общая характеристика гражданского права зарубежных государств",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-4"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 5,
+      "title": "Понятие, элементы и виды гражданских правоотношений",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-5"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 6,
+      "title": "Граждане как субъекты гражданских правоотношений",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-6"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 7,
+      "title": "Юридические лица как субъекты гражданских правоотношений. общие положения",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-7"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 8,
+      "title": "Коммерческие организации как субъекты гражданских правоотношений",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-8"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 9,
+      "title": "Некоммерческие организации как субъекты гражданских правоотношений",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-9"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 10,
+      "title": "Публичные образования как субъекты гражданских правоотношений",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-10"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 11,
+      "title": "Объекты гражданских прав",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-11"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 12,
+      "title": "Ценные бумаги",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-12"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 13,
+      "title": "Нематериальные блага",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-13"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 14,
+      "title": "Возникновение, изменение и прекращение гражданских правоотношений",
+      "status": "mapped",
+      "topics": [
+        "transactions",
+        "invalid-transactions",
+        "meeting-decisions"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 15,
+      "title": "Осуществление гражданских прав и исполнение обязанностей",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-15"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 16,
+      "title": "Представительство",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-16"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 17,
+      "title": "Защита гражданских прав",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-17"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 18,
+      "title": "Сроки осуществления и защиты гражданских прав",
+      "status": "mapped",
+      "topics": [
+        "civil-time",
+        "limitation"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 19,
+      "title": "Общие положения о вещном праве",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-19"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 20,
+      "title": "Право собственности. общие положения",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-20"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 21,
+      "title": "Право частной собственности",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-21"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 22,
+      "title": "Право публичной собственности",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-22"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 23,
+      "title": "Право общей собственности",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-23"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 24,
+      "title": "Ограниченные вещные права",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-24"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 25,
+      "title": "Защита права собственности и иных вещных прав",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-25"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 26,
+      "title": "Понятие, виды и основания возникновения обязательств",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-26"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 27,
+      "title": "Гражданско - правовой договор",
+      "status": "mapped",
+      "topics": [
+        "contract-basics",
+        "contract-types",
+        "contract-terms",
+        "offer",
+        "contract-negotiations",
+        "contract-ending"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 28,
+      "title": "Исполнение обязательств",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-28"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 29,
+      "title": "Обеспечение исполнения обязательств",
+      "status": "mapped",
+      "topics": [
+        "liability",
+        "pledge",
+        "retention",
+        "surety",
+        "guarantee",
+        "deposit"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 30,
+      "title": "Ответственность за нарушение обязательств",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-30"
+      ]
+    },
+    {
+      "volume": 1,
+      "chapter": 31,
+      "title": "Изменение и прекращение обязательств",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-31"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 32,
+      "title": "Купля-продажа и мена",
+      "status": "mapped",
+      "topics": [
+        "sale",
+        "retail",
+        "supply",
+        "energy",
+        "real-estate-sale",
+        "barter"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 33,
+      "title": "Дарение",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-33"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 34,
+      "title": "Рента и пожизненное содержание с иждивением",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-34"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 35,
+      "title": "Аренда",
+      "status": "mapped",
+      "topics": [
+        "lease",
+        "rental",
+        "vehicle-lease",
+        "building-lease",
+        "leasing"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 36,
+      "title": "Безвозмездное пользование имуществом (ссуда)",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-36"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 37,
+      "title": "Жилищное право",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-37"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 38,
+      "title": "Подряд",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-38"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 39,
+      "title": "Выполнение научно-исследовательских, опытно-конструкторских и технологических работ",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-39"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 40,
+      "title": "Возмездное оказание услуг",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-40"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 41,
+      "title": "Перевозка и иные транспортные обязательства",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-41"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 42,
+      "title": "Заемные и расчетные обязательства",
+      "status": "mapped",
+      "topics": [
+        "loan-credit",
+        "factoring",
+        "bank-deposit",
+        "bank-account",
+        "payments"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 43,
+      "title": "Страхование",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-43"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 44,
+      "title": "Поручение",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-44"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 45,
+      "title": "Комиссия",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-45"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 46,
+      "title": "Агентирование",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-46"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 47,
+      "title": "Доверительное управление имуществом",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-47"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 48,
+      "title": "Хранение",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-48"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 49,
+      "title": "Коммерческая концессия",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-49"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 50,
+      "title": "Договор простого товарищества",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-50"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 51,
+      "title": "Обязательства из односторонних действий",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-51"
+      ]
+    },
+    {
+      "volume": 2,
+      "chapter": 52,
+      "title": "Проведение игр и пари",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-52"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 53,
+      "title": "Обязательства вследствие причинения вреда",
+      "status": "mapped",
+      "topics": [
+        "tort",
+        "state-tort",
+        "minor-tort",
+        "danger-tort",
+        "health-tort",
+        "product-tort"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 54,
+      "title": "Обязательства из неосновательного обогащения",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-54"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 55,
+      "title": "Понятие интеллектуальной собственности и система ее правовой охраны",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-55"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 56,
+      "title": "Авторское право",
+      "status": "mapped",
+      "topics": [
+        "copyright",
+        "related-rights"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 57,
+      "title": "Патентное право",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-57"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 58,
+      "title": "Правовая охрана средств индивидуализации участников гражданского оборота, товаров, работ, услуг и предприятий",
+      "status": "mapped",
+      "topics": [
+        "trade-name",
+        "trademarks",
+        "geographic-designations",
+        "commercial-designation"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 59,
+      "title": "Правовая охрана нетрадиционных объектов интеллектуальной собственности",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-59"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 60,
+      "title": "Общие положения о семейном праве",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-60"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 61,
+      "title": "Семейные правоотношения",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-61"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 62,
+      "title": "Личные и имущественные правоотношения между супругами",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-62"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 63,
+      "title": "Личные и имущественные правоотношения между родителями и детьми",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-63"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 64,
+      "title": "Личные и имущественные правоотношения, связанные с воспитанием детей, оставшихся без попечения родителей",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-64"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 65,
+      "title": "Алиментные обязательства",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-65"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 66,
+      "title": "Общие положения о наследственном праве",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-66"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 67,
+      "title": "Наследование по завещанию",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-67"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 68,
+      "title": "Наследование по закону",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-68"
+      ]
+    },
+    {
+      "volume": 3,
+      "chapter": 69,
+      "title": "Осуществление и охрана наследственных прав",
+      "status": "mapped",
+      "topics": [
+        "civil-ch-69"
+      ]
+    }
+  ]
+}

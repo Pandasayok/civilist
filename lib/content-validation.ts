@@ -7,7 +7,7 @@ const common={id,title:str};
 const node=z.object({id,scene:str,title:str,options:z.array(z.object({text:str,feedback:str,correct:z.boolean(),next:id.optional()})).min(2).max(6),next:id.optional(),source});
 export const schemas={
   branch:z.object({...common,description:str,group:str,icon:str,color:z.string().regex(/^#[a-fA-F0-9]{6}$/)}),
-  lesson:z.object({...common,branchId:id,topic:str,minutes:z.number().int().min(1).max(180),summary:str,points:z.array(str).min(1).max(20),example:str,source}),
+  lesson:z.object({...common,branchId:id,topic:str,minutes:z.number().int().min(1).max(180),summary:str,points:z.array(str).min(1).max(20),example:str,sections:z.array(z.object({id,title:str,paragraphs:z.array(str).min(1).max(30),table:z.object({headers:z.array(str).min(2).max(6),rows:z.array(z.array(str)).min(1).max(40)}).superRefine((t,c)=>{if(t.rows.some(r=>r.length!==t.headers.length))c.addIssue({code:"custom",message:"Число ячеек должно совпадать с заголовками таблицы"});}).optional(),steps:z.array(str).max(20).optional()})).max(30).refine(s=>new Set(s.map(x=>x.id)).size===s.length,"Идентификаторы разделов темы должны быть уникальны").optional(),source}),
   card:z.object({...common,branchId:id,lessonId:id,answer:str,source}),
   question:z.object({...common,branchId:id,lessonId:id,type:z.enum(["single","multiple","matching","sequence","short"]),options:z.array(str).max(12),answer:z.array(z.number().int().min(0)).max(12),left:z.array(str).optional(),explanation:str,model:str.optional(),source}).superRefine((q,c)=>{
     if(q.type==="short"){if(!q.model)c.addIssue({code:"custom",message:"Нужен эталонный ответ"});return;}
