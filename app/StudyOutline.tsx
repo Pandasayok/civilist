@@ -24,11 +24,11 @@ export default function StudyOutline({lessons,state,questions,onExam,branchId,ex
       const index=sections.indexOf(section);
       return <section className="panel study-section" key={section}>
         <h2><button className="study-section-toggle" aria-expanded={open} aria-controls={`study-section-${index}`} onClick={()=>onExpand(open?"":section)}>
-          <span>{section}<small>{completed} из {items.length} тем пройдено{missing.length>0?` · готовится ещё ${missing.length}`:""}</small></span><span aria-hidden="true">{open?"−":"+"}</span>
+          <span>{section}<small>{completed} из {items.length} тем пройдено · тестов сдано {tests}/{items.length}{missing.length>0?` · готовится ещё ${missing.length}`:""}</small></span><span aria-hidden="true">{open?"−":"+"}</span>
         </button></h2>
         <div id={`study-section-${index}`} hidden={!open}>
           {items.map(l=><article className="study-topic" key={l.id}>
-            <div><span className="meta">{state?.completedLessons.includes(l.id)?"Пройдена":"Не пройдена"} · {l.minutes} минут</span><h3>{l.title}</h3><p>{l.summary}</p></div>
+            <div><span className="meta">{state?.completedLessons.includes(l.id)?"Пройдена":"Не пройдена"} · {l.minutes} минут</span><h3>{l.title}</h3><p>{l.summary}</p>{(()=>{const test=state?.assessments?.find(a=>a.mode==='topic'&&a.target===l.id);return <p className="meta">{test?`${test.passed?"Тест сдан":"Тест завершён — нужен повтор"} · лучший результат ${test.bestPercent}%`:"Тест ещё не завершён"}</p>})()}</div>
             <Button variant="outline" aria-label={`Открыть тему: ${l.title}`} onClick={()=>onOpen(l)}>Открыть тему</Button>
           </article>)}
           {missing.map(t=><article className="study-topic study-topic-planned" key={t.id}><div><span className="meta">Материал готовится</span><h3>{t.title}</h3></div><Button variant="outline" disabled>Пока недоступно</Button></article>)}

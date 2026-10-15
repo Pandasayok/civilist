@@ -47,3 +47,23 @@ def test_curriculum_completion_survives_reload_without_extra_xp(page, login):
     expect(page.locator(".xp-stat")).to_have_text(xp)
     page.get_by_role("button", name="К оглавлению", exact=True).click()
     expect(page.get_by_role("button", name=re.compile("^Договорное право"))).to_contain_text("1 из 6 тем пройдено")
+
+
+@pytest.mark.parametrize("mobile", [False, True], ids=["desktop", "mobile"])
+def test_section_toggle_preserves_scroll_context(page, login, mobile):
+    if mobile:
+        page.set_viewport_size({"width": 390, "height": 844})
+    login(page)
+    page.goto("/?view=learn&scope=civil")
+    toggle = page.get_by_role("button", name=re.compile("^Договорное право"))
+    expect(toggle).to_be_visible()
+    toggle.evaluate("el => el.scrollIntoView({block: 'center'})")
+    before = page.evaluate("window.scrollY")
+    assert before > 100
+    toggle.click()
+    expect(toggle).to_have_attribute("aria-expanded", "true")
+    page.wait_for_function("y => Math.abs(window.scrollY - y) < 3", arg=before)
+    assert abs(page.evaluate("window.scrollY") - before) < 3
+    toggle.click()
+    expect(toggle).to_have_attribute("aria-expanded", "false")
+    assert abs(page.evaluate("window.scrollY") - before) < 3
