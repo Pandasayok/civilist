@@ -29,3 +29,17 @@ export const assessmentAttempts = sqliteTable("assessment_attempts", {
  questions:text("questions").notNull(),answers:text("answers").notNull().default("{}"),result:text("result"),status:text("status").notNull().default("active"),
  createdAt:text("created_at").notNull(),updatedAt:text("updated_at").notNull(),
 },t=>[uniqueIndex("assessment_one_active").on(t.userId,t.targetKey).where(sql`${t.status}='active'`),index("assessment_history").on(t.userId,t.targetKey,t.status)]);
+
+// Identity is independent from the profile and from administrative privileges.
+// Existing code-based users keep their stable IDs during the transition.
+export const accounts = sqliteTable("accounts", {
+  id: text("id").primaryKey(),
+  email: text("email"),
+  emailVerifiedAt: text("email_verified_at"),
+  createdAt: text("created_at").notNull(),
+}, t => [uniqueIndex("accounts_email_unique").on(t.email)]);
+export const internalAccess = sqliteTable("internal_access", {
+  userId: text("user_id").primaryKey().references(() => accounts.id),
+  grantedAt: text("granted_at").notNull(),
+  revokedAt: text("revoked_at"),
+});
