@@ -16,5 +16,5 @@ export type Event = {id:string;kind:string;target_id:string;answer:string;correc
 export type Review = {card_id:string;level:number;due_at:string;rating:string};
 export type AssessmentProgress={mode:"topic"|"section";branchId:string;target:string;passed:boolean;bestPercent:number;attempts:number};
 export type State = {assessments:AssessmentProgress[];name:string;goal:number;xp:number;todayXp:number;streak:number;questionsAnswered:number;correctAnswers:number;accuracy:number;completedLessons:string[];completedCases:string[];events:Event[];reviews:Review[];bookmarks:string[];days:{day:string;xp:number}[];today:string;weak:{id:string;errors:number}[]};
-export type Bootstrap = {content:Content;state:State|null;user:{isSignedIn:boolean;isAdmin:boolean;email:string|null};unavailable?:boolean};
+export type Bootstrap = {content:Content;state:State|null;user:{isSignedIn:boolean;isAdmin:boolean;email:string|null;access?:{kind:"internal"|"legacy";expiresAt:null}|null};unavailable?:boolean};
 export const collection:Record<Kind,keyof Content> = {branch:"branches",lesson:"lessons",card:"cards",question:"questions",case:"cases",practice:"practices",document:"documents"};

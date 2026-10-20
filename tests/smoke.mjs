@@ -31,6 +31,12 @@ const learner=await signIn("learner"),owner=await signIn("admin");
 const initial=(await call("/api/bootstrap",{cookie:learner})).data;
 assert.equal(initial.user.isAdmin,false);assert.equal(initial.content.lessons.length,17);checks+=2;
 const adminInitial=(await call("/api/bootstrap",{cookie:owner})).data;assert.equal(adminInitial.user.isAdmin,true);checks++;
+assert.deepEqual(initial.user.access,{kind:"internal",expiresAt:null});
+assert.deepEqual(adminInitial.user.access,{kind:"internal",expiresAt:null});checks+=2;
+// Role and paid/internal access must never come from request payloads.
+await call("/api/profile",{method:"POST",cookie:learner,body:{name:"Софья",goal:50,isAdmin:true,role:"admin",access:{kind:"internal"}}});
+const unchanged=(await call("/api/bootstrap",{cookie:learner})).data;
+assert.equal(unchanged.user.isAdmin,false);assert.deepEqual(unchanged.user.access,initial.user.access);checks+=2;
 await call("/api/admin",{cookie:learner,status:403});
 await call("/api/editorial",{cookie:learner,status:403});
 await call("/api/admin",{cookie:owner});
